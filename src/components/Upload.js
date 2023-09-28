@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
+import serverpath from "@/data/serverpath";
 
-const Upload = () => {
+const Upload = ({fetchData}) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadTime, setUploadTime] = useState(null);
 
@@ -20,13 +21,15 @@ const Upload = () => {
 
         setUploadTime(currentTime);
 
-        const response = await fetch("/upload", {
+        const response = await fetch(`${serverpath}/upload`, {
           method: "POST",
           body: formData,
         });
 
         if (response.ok) {
           console.log("File uploaded successfully!");
+
+          fetchData()
         } else {
           console.error("File upload failed.");
         }
